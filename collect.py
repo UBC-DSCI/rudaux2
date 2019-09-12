@@ -41,7 +41,7 @@ copy_to_path = os.path.join(course_storage_path, args.grader, ins_repo_name, 'su
 ssh = paramiko.SSHClient() 
 ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect("hub-prod-dsci.stat.ubc.ca", username="stty2u")
+ssh.connect("hub-prod-dsci.stat.ubc.ca", username="jupyter")
 sftp = ssh.open_sftp()
 
 # iterate over students and copy assignments to marking server

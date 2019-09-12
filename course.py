@@ -1,13 +1,10 @@
+# make course an object
 import requests
 import os
 import urllib.parse
 import posixpath
 import pandas as pd
-from paramiko import SSHClient
-from scp import SCPClient
 
-
-# make course an object
 class course():
     
     def __init__(self, canvasHostName, courseID):
@@ -22,7 +19,8 @@ class course():
         a list of the student id's of all students currently enrolled in the course.
     
         Example:
-        course.get_student_ids("https://canvas.ubc.ca", "40616")'''
+        course.get_student_ids()'''
+        #canvas_token = rudaux2_config.CANVAS_TOKEN
         canvas_token = os.environ["CANVAS_TOKEN"]
         url_path = posixpath.join("api", "v1", "courses", self.courseID, "enrollments")
         api_url = urllib.parse.urljoin(self.canvasHostName, url_path)
@@ -49,7 +47,8 @@ class course():
         a Pandas data frame with all existing assignments and their attributes/data
 
         Example:
-        course.get_assignments("https://canvas.ubc.ca", "40616")'''
+        course.get_assignments()'''
+        #canvas_token = rudaux2_config.CANVAS_TOKEN
         canvas_token = os.environ["CANVAS_TOKEN"]
         url_path = posixpath.join("api", "v1", "courses", self.courseID, "assignments")
         api_url = urllib.parse.urljoin(self.canvasHostName, url_path)
@@ -68,12 +67,13 @@ class course():
         return assign_data
     
     def get_assignment_due_date(self, assignment):
-        '''Read Canvas authentication token from an environment variable, takes a
-        Canvas host name (includes https://) and the Canvas course id and returns
-        a Pandas data frame with all existing assignments and their attributes/data
-
+        '''Takes the name of a Canvas assignment and returns the due date.
+        
         Example:
-        get_assignment_due_date('https://canvas.ubc.ca', '40616', 'worksheet_01')'''
+        course.get_assignment_due_date('worksheet_01')'''
         assignments = self.get_assignments()
         assignment = assignments[['name', 'due_at']].query('name == @assignment')
-        return assignment['due_at'].to_numpy()[0]
+        due_date = assignment['due_at'].to_numpy()[0]
+        due_date = due_date.replace("T", "-")
+        due_date = due_date.replace(":", "-")
+        return due_date[:16]

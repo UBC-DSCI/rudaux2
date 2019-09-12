@@ -26,7 +26,7 @@ snapshot_prefix = 'zfs-auto-snap_'
 snapshot_delay = '10'
 
 # Get student id's and assignment due date
-dsci100 = course(dsci100_canvasHostName, dsci100_courseID) # get these values 
+dsci100 = course.course(dsci100_canvasHostName, dsci100_courseID) # get these values 
 students = dsci100.get_student_ids()
 due_date = dsci100.get_assignment_due_date(args.assignment)[:13]
 

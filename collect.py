@@ -6,6 +6,9 @@ import pandas as pd
 import paramiko
 import argparse
 import course
+from nbgrader.apps import NbGraderAPI
+from traitlets.config import Config
+from nbgrader.api import Gradebook
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--assignment')
@@ -62,3 +65,10 @@ for student in students:
 # close connections
 sftp.close()
 ssh.close()
+
+# set-up gradebook (add students)
+gb = Gradebook('sqlite:///gradebook.db')
+for student in students:
+    gb.add_student(student)
+    # close connection to database
+    gb.close()

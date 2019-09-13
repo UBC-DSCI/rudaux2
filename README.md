@@ -1,6 +1,11 @@
 # rudaux2
 
-Helper functions to interact with Canvas & nbgrader.
+Helper functions to interact with Canvas.
+
+### To install package:
+```
+pip install git+https://github.com/UBC-DSCI/rudaux2.git
+```
 
 ## Dependencies
 - Python 3 and the following Python packages:
@@ -10,10 +15,12 @@ Helper functions to interact with Canvas & nbgrader.
   - `posixpath`
   - `pandas`
 
-## File organization
+## Description
 
-#### `course.py`
+Code to create a `course` object (which needs a Canvas host name and a Canvas course ID). Methods to get and send data from that course. Current methods include:
 
-Functions that do things for an entire course. Current functions include:
+- `course.get_student_ids` - Read Canvas authentication token from an environment variable, takes a Canvas host name (includes https://) and the Canvas course id and returns a list of the student id's of all students currently enrolled in the course.
 
-- `get_assignments` - Reads a Canvas authentication token from an environment variable, takes a Canvas host name (includes https://) and the Canvas course id and returns a Pandas data frame with all existing assignments and their attributes/data.
+- `course.get_assignments` - Reads a Canvas authentication token from an environment variable, takes a Canvas host name (includes https://) and the Canvas course id and returns a Pandas data frame with all existing assignments and their attributes/data.
+
+- `course.get_assignment_due_date` - Takes the name of a Canvas assignment and returns the due date.

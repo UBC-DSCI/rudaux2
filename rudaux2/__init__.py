@@ -7,10 +7,10 @@ import pandas as pd
 
 class course():
     
-    def __init__(self, canvasHostName, courseID, courseID=os.environ["CANVAS_TOKEN"]):
+    def __init__(self, canvasHostName, courseID, course_token=os.environ["CANVAS_TOKEN"]):
         self.canvasHostName = canvasHostName
         self.courseID = courseID
-        self.canvas_token = courseID
+        self.canvas_token = course_token
         print('Create class with Canvas host name:{0} and course ID: {1})'.
               format(self.canvasHostName, self.courseID))
         

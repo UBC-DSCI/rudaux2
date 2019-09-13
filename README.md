@@ -7,6 +7,13 @@ Helper functions to interact with Canvas.
 pip install git+https://github.com/UBC-DSCI/rudaux2.git
 ```
 
+### To install packages and have access to scripts in src:
+```
+git clone https://github.com/UBC-DSCI/rudaux2.git
+cd rudaux2
+pip install .
+```
+
 ## Dependencies
 - Python 3 and the following Python packages:
   - `requests`

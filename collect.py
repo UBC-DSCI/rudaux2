@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--assignment')
 parser.add_argument('--due_day')
 parser.add_argument('--grader')
+parser.add_argument('--force', nargs='?', const=False, type=bool)
 args = parser.parse_args()
 
 #print(args.input_file)
@@ -57,10 +58,15 @@ for student in students:
     else:   
         if not os.path.exists(os.path.join(student_path_local, args.assignment)):
             os.mkdir(os.path.join(student_path_local, args.assignment))
-    try:
-        sftp.get(remotepath=assignment_path, localpath=submission_path)
-    except:
-      pass
+    
+    if args.force == True:
+        try:
+            sftp.get(remotepath=assignment_path, localpath=submission_path)
+        except:
+            pass
+    else:
+        if not os.path.exists(assignment_path):
+            sftp.get(remotepath=assignment_path, localpath=submission_path)	
 
 # close connections
 sftp.close()

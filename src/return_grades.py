@@ -8,10 +8,12 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--assignment')
-parser.add_argument('--')
-parser.add_argument('--grader')
 parser.add_argument('--grades_path', nargs='?', const='grades.csv', type=str)
 args = parser.parse_args()
+
+# course settings (eventually abtract to a config file)
+dsci100_canvasHostName = 'https://canvas.ubc.ca'
+dsci100_courseID = '40616'
 
 # get student id & grades as percentage
 nbgrader_grades = pd.read_csv(args.grades_path)

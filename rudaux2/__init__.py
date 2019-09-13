@@ -95,13 +95,13 @@ class course():
             url_post_path = posixpath.join(url_mid_path, stu)
             api_url = urllib.parse.urljoin(self.canvasHostName, url_post_path)
             resp = requests.put(
-                url = urllib.parse.urljoin(api_prefix, stu),
+                url = urllib.parse.urljoin(api_url, stu),
                 headers = {
                     "Authorization": f"Bearer {self.canvas_token}",
                     "Accept": "application/json+canvas-string-ids"
-                },
+                    },
                 json={
-                    "submission": {
-                    "posted_grade":student['score']
-                }
+                    "submission": {"posted_grade":student['score']}
+                    },
             )
+

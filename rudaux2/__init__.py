@@ -90,19 +90,18 @@ class course():
         course.post_grades(data, 'worksheet_01')'''
         assignment_id = self.get_assignment_id(assignment)
         url_mid_path = posixpath.join("api", "v1", "courses", self.courseID, "assignments", assignment_id, "submissions")
-            for index, student in data.iterrows():
-                stu = str(int(student['student_id']))
-                url_post_path = posixpath.join(url_mid_path, stu)
-                api_url = urllib.parse.urljoin(self.canvasHostName, url_post_path)
-                resp = requests.put(
-                    url = urllib.parse.urljoin(api_prefix, stu),
-                    headers = {
-                        "Authorization": f"Bearer {self.canvas_token}",
-                        "Accept": "application/json+canvas-string-ids"
-                    },
-                    json={
-                        "submission": {
-                        "posted_grade":student['score']
-                    }
+        for index, student in data.iterrows():
+            stu = str(int(student['student_id']))
+            url_post_path = posixpath.join(url_mid_path, stu)
+            api_url = urllib.parse.urljoin(self.canvasHostName, url_post_path)
+            resp = requests.put(
+                url = urllib.parse.urljoin(api_prefix, stu),
+                headers = {
+                    "Authorization": f"Bearer {self.canvas_token}",
+                    "Accept": "application/json+canvas-string-ids"
+                },
+                json={
+                    "submission": {
+                    "posted_grade":student['score']
                 }
             )

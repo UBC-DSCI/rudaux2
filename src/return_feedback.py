@@ -29,10 +29,10 @@ copy_from_path_prefix = os.path.join(course_storage_path, args.grader, ins_repo_
 # looping over student id
 for student in students:
     student_path_remote = os.path.join(course_storage_path, str(student))
-    assignment_folder_path_remote = os.path.join(student_path_remote, "feedback", str(student), args.assignment)
+    assignment_folder_path_remote = os.path.join(student_path_remote, "feedback", args.assignment)
     #assignment_path_remote = os.path.join(assignment_folder_path_remote, args.assignment, '.ipynb')
     
-    assignment_folder_path_local = os.path(copy_from_path_prefix, str(student), args.assignment)
+    assignment_folder_path_local = os.path.join(copy_from_path_prefix, str(student), args.assignment)
 
     try:
         sftp.mkdir(os.path.join(student_path_remote, "feedback"))
@@ -51,7 +51,7 @@ for student in students:
                     pass
             for file in files:
                 try:
-                    sftp.put(localpath=os.path.join(root, file), remotepath=file)
+                    sftp.put(localpath=os.path.join(root, file), remotepath=os.path.join(assignment_folder_path_remote, file))
                 except:
                     pass
     except:

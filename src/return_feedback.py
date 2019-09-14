@@ -41,7 +41,7 @@ for student in students:
     #assignment_path_remote = os.path.join(assignment_folder_path_remote, args.assignment, '.ipynb')
     
     assignment_folder_path_local = os.path.join(copy_from_path_prefix, str(student), args.assignment)
-    sftp.mkdir(os.path.join(student_path_remote, "feedback"))
+
     try:
         sftp.mkdir(os.path.join(student_path_remote, "feedback"))
     except:

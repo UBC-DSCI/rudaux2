@@ -14,7 +14,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--assignment')
 parser.add_argument('--due_day')
 parser.add_argument('--grader')
-parser.add_argument('--force', nargs='?', const=False, type=bool)
 args = parser.parse_args()
 
 #print(args.input_file)
@@ -42,7 +41,7 @@ copy_to_path = os.path.join(course_storage_path, args.grader, ins_repo_name, 'su
 ssh = paramiko.SSHClient() 
 ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect("hub-prod-dsci.stat.ubc.ca", username="jupyter")
+ssh.connect("hub-prod-dsci.stat.ubc.ca", username="stty2u")
 sftp = ssh.open_sftp()
 
 # iterate over students and copy assignments to marking server
@@ -58,23 +57,11 @@ for student in students:
     else:   
         if not os.path.exists(os.path.join(student_path_local, args.assignment)):
             os.mkdir(os.path.join(student_path_local, args.assignment))
-    
-    if args.force == True:
-        try:
-            sftp.get(remotepath=assignment_path, localpath=submission_path)
-        except:
-            pass
-    else:
-        if not os.path.exists(assignment_path):
-            sftp.get(remotepath=assignment_path, localpath=submission_path)	
+    try:
+        sftp.get(remotepath=assignment_path, localpath=submission_path)
+    except:
+      pass
 
 # close connections
 sftp.close()
 ssh.close()
-
-# set-up gradebook (add students)
-gb = Gradebook('sqlite:///gradebook.db')
-for student in students:
-    gb.add_student(student)
-    # close connection to database
-    gb.close()

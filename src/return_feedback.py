@@ -3,6 +3,7 @@ import shutil
 import requests
 import argparse
 import rudaux2
+import paramiko
 
 # read in command line arguments
 parser = argparse.ArgumentParser()
@@ -26,6 +27,13 @@ students = dsci100.get_student_ids()
 # set-up copy from path prefixes
 copy_from_path_prefix = os.path.join(course_storage_path, args.grader, ins_repo_name, 'feedback')
 
+# set up scp between servers
+ssh = paramiko.SSHClient() 
+ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect("hub-prod-dsci.stat.ubc.ca", username="stty2u")
+sftp = ssh.open_sftp()
+
 # looping over student id
 for student in students:
     student_path_remote = os.path.join(course_storage_path, str(student))
@@ -33,7 +41,7 @@ for student in students:
     #assignment_path_remote = os.path.join(assignment_folder_path_remote, args.assignment, '.ipynb')
     
     assignment_folder_path_local = os.path.join(copy_from_path_prefix, str(student), args.assignment)
-
+    sftp.mkdir(os.path.join(student_path_remote, "feedback"))
     try:
         sftp.mkdir(os.path.join(student_path_remote, "feedback"))
     except:

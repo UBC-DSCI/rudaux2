@@ -11,6 +11,7 @@ parser.add_argument('--assignment')
 parser.add_argument('--grader')
 args = parser.parse_args()
 assignment = args.assignment
+grader = args.grader
 
 # course settings (eventually abtract to a config file)
 dsci100_canvasHostName = 'https://canvas.ubc.ca'
@@ -25,7 +26,7 @@ dsci100 = rudaux2.course(dsci100_canvasHostName, dsci100_courseID) # get these v
 students = dsci100.get_student_ids()
 
 # set-up copy from path prefixes
-copy_from_path_prefix = os.path.join(course_storage_path, args.grader, ins_repo_name, 'feedback')
+copy_from_path_prefix = os.path.join(course_storage_path, grader, ins_repo_name, 'feedback')
 
 # set up scp between servers
 ssh = paramiko.SSHClient() 
@@ -37,10 +38,10 @@ sftp = ssh.open_sftp()
 # looping over student id
 for student in students:
     student_path_remote = os.path.join(course_storage_path, str(student))
-    assignment_folder_path_remote = os.path.join(student_path_remote, "feedback", args.assignment)
-    #assignment_path_remote = os.path.join(assignment_folder_path_remote, args.assignment, '.ipynb')
+    assignment_folder_path_remote = os.path.join(student_path_remote, "feedback", assignment)
+    #assignment_path_remote = os.path.join(assignment_folder_path_remote, assignment, '.ipynb')
     
-    assignment_folder_path_local = os.path.join(copy_from_path_prefix, str(student), args.assignment)
+    assignment_folder_path_local = os.path.join(copy_from_path_prefix, str(student), assignment)
 
     try:
         sftp.mkdir(os.path.join(student_path_remote, "feedback"))

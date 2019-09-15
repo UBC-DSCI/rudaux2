@@ -22,7 +22,7 @@ pip install .
   - `posixpath`
   - `pandas`
 
-## Description
+## Package functionality description
 
 Code to create a `course` object (which needs a Canvas host name, a Canvas course ID and a Canvas authentication token from an environment variable). Methods to get and send data from that course. Current methods include:
 

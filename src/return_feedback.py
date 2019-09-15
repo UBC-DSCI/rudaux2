@@ -1,3 +1,16 @@
+# Author: Tiffany Timbers (tiffany.timbers@gmail.com)
+# Date: 2019-09-14
+#
+# Returns feedback forms to students working directory on JupyterHub from the grading
+# JupyterHub. Takes assignment name and grader name (shib login name, which is the 
+# cwl at UBC). Needs to be run as root via sudo -E. Assumes that you have installed 
+# rudaux2 as a package, and that you have your Canvas authentication token stored as 
+# an environment variable named CANVAS_TOKEN.
+#
+# Example:
+#
+# python return_feedback.py --assignment=tutorial_01 --grader=timberst
+
 import os
 import shutil
 import requests

@@ -1,3 +1,16 @@
+# Author: Tiffany Timbers (tiffany.timbers@gmail.com)
+# Date: 2019-09-14
+#
+# Copies assignment from snapshot of students working directory on JupyterHub at due 
+# date to the grading JupyterHub. Takes assignment name, due day (part of snapshot name)
+# and grader name (shib login name, which is the cwl at UBC). Needs to be run as root 
+# via sudo -E. Assumes that you have installed rudaux2 as a package, and that you have 
+# your Canvas authentication token stored as an environment variable named CANVAS_TOKEN.
+#
+# Example:
+#
+# sudo -E python3 collect.py --assignment=worksheet_01 --due_day=sat --grader=timberst
+
 import requests
 import os
 import urllib.parse

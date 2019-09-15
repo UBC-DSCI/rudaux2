@@ -1,6 +1,6 @@
 # rudaux2
 
-Helper functions to interact with Canvas.
+Helper functions to interact with Canvas, and scripts to help coordinate DSCI 100 grading. DSCI 100 infrastructure repo [here](https://github.com/UBC-DSCI/dsci-100-infra).
 
 ### To install package:
 ```

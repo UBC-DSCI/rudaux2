@@ -1,3 +1,19 @@
+# Author: Tiffany Timbers (tiffany.timbers@gmail.com)
+# Date: 2019-09-14
+#
+# Posts grades to Canvas using API given assignment name. Assumes script is run from 
+# root of nbgrader course directory, that you have created grades.csv via
+# nbgrader export, that you have installed rudaux2 as a package, and that you have
+# your Canvas authentication token stored as an environment variable named CANVAS_TOKEN.
+#
+# Optional argument of --grades_path if grades.csv is not in the directory where the 
+# script is run, or if it is named something else. Another optional argument is 
+# point_adjust which is useful if you forget to assign points to a question.
+#
+# Example:
+#
+# python return_grades.py --assignment=tutorial_01 --point_adjust=3
+
 import requests
 import os
 import urllib.parse

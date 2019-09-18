@@ -13,6 +13,7 @@
 
 import requests
 import os
+import shutil
 import urllib.parse
 import posixpath
 import pandas as pd

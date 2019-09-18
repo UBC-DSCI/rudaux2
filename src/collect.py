@@ -80,13 +80,15 @@ for student in students:
         os.mkdir(os.path.join(student_path_local, args.assignment))  
     #copy the hub-prod version of the file if it exists; if not, do nothing
     try:
-        sftp.stat(assignment_path) #only passes without IOError if file exists
         sftp.get(remotepath=assignment_path, localpath=submission_path)
     except IOError as e:
-        print('IOError: it\'s possible that the remote file doesn\'t exist at')
+        print('IOError when copying from the remote path at')
         print(assignment_path)
         print('IOError Message:')
         print(e)
+    #if the resulting .ipynb file is empty, delete the student's path so autograder doesn't fail
+    if not os.path.getsize(submission_path):
+        shutil.rmtree(student_path_local)
 
 # close connections
 sftp.close()

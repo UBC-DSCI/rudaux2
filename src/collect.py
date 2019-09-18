@@ -88,7 +88,8 @@ for student in students:
         print(e)
     #if the resulting .ipynb file is empty, delete the student's path so autograder doesn't fail
     if not os.path.getsize(submission_path):
-        shutil.rmtree(student_path_local)
+        print('copied assignment was empty, deleting folder')
+        shutil.rmtree(os.path.join(student_path_local, args.assignment))
 
 # close connections
 sftp.close()

@@ -50,6 +50,10 @@ due_date = dsci100.get_assignment_due_date(args.assignment)[:13]
 copy_from_path = os.path.join('.zfs', 'snapshot', snapshot_prefix + args.due_day + '-' + due_date + snapshot_delay)
 copy_to_path = os.path.join(course_storage_path, args.grader, ins_repo_name, 'submitted')
 
+#if the submitted/ folder doesn't exist, create it
+if not os.path.exists(copy_to_path):
+    os.mkdir(copy_to_path)
+
 print('Copying student assignments from ' + str(copy_from_path))
 print('Copying student assignments to ' + str(copy_to_path))
 
@@ -79,7 +83,8 @@ for student in students:
         sftp.stat(assignment_path) #only passes without IOError if file exists
         sftp.get(remotepath=assignment_path, localpath=submission_path)
     except IOError as e:
-        print('IOError: it\'s possible that the remote file doesn\'t exist at ' + assignment_path)
+        print('IOError: it\'s possible that the remote file doesn\'t exist at')
+        print(assignment_path)
         print('IOError Message:')
         print(e)
 

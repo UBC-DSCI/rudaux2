@@ -50,6 +50,9 @@ due_date = dsci100.get_assignment_due_date(args.assignment)[:13]
 copy_from_path = os.path.join('.zfs', 'snapshot', snapshot_prefix + args.due_day + '-' + due_date + snapshot_delay)
 copy_to_path = os.path.join(course_storage_path, args.grader, ins_repo_name, 'submitted')
 
+print('Copying student assignments from ' + str(copy_from_path))
+print('Copying student assignments to ' + str(copy_to_path))
+
 # set up scp between servers
 ssh = paramiko.SSHClient() 
 ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
@@ -61,19 +64,24 @@ sftp = ssh.open_sftp()
 for student in students:
     student_path_remote = os.path.join(course_storage_path, str(student))
     assignment_path = os.path.join(student_path_remote, copy_from_path, stu_repo_name, assignment_release_path, args.assignment, args.assignment + '.ipynb')
+    print('Copying student ' + str(student) + ' assignment ' + args.assignment + ' from: ' + str(student_path_remote))
     student_path_local = os.path.join(copy_to_path, str(student))
     submission_path = os.path.join(student_path_local, args.assignment, args.assignment + '.ipynb')
+    print('Copying to ' + str(submission_path))
     
+    #if the student folder or assignment subfolder doesn't exist, create them
     if not os.path.exists(student_path_local):
         os.mkdir(student_path_local)
+    if not os.path.exists(os.path.join(student_path_local, args.assignment)):
         os.mkdir(os.path.join(student_path_local, args.assignment))  
-    else:   
-        if not os.path.exists(os.path.join(student_path_local, args.assignment)):
-            os.mkdir(os.path.join(student_path_local, args.assignment))
+    #copy the hub-prod version of the file if it exists; if not, do nothing
     try:
+        sftp.stat(assignment_path) #only passes without IOError if file exists
         sftp.get(remotepath=assignment_path, localpath=submission_path)
-    except:
-      pass
+    except IOError as e:
+        print('IOError: it\'s possible that the remote file doesn\'t exist at ' + assignment_path)
+        print('IOError Message:')
+        print(e)
 
 # close connections
 sftp.close()

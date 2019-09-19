@@ -12,7 +12,7 @@
 #
 # Example:
 #
-# python return_grades.py --assignment=tutorial_01 --point_adjust=3
+# python return_grades.py --assignment=tutorial_01 --grades_path --point_adjust=3
 
 import requests
 import os
@@ -24,7 +24,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--assignment')
-parser.add_argument('--grades_path', nargs='?', const='grades.csv', type=str)
+parser.add_argument('--grades_path')
 parser.add_argument('--point_adjust')
 args = parser.parse_args()
 point_adjust = args.point_adjust

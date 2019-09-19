@@ -28,6 +28,7 @@ parser.add_argument('--grades_path')
 parser.add_argument('--point_adjust')
 args = parser.parse_args()
 point_adjust = args.point_adjust
+assignment = args.assignment
 
 # course settings (eventually abtract to a config file)
 dsci100_canvasHostName = 'https://canvas.ubc.ca'

@@ -15,7 +15,7 @@
 #
 # This script can also adjust the grades in case a mistake was made assigning points. 
 # This can be done using the point_adjust optional argument:
-# python return_grades.py --assignment=tutorial_01 --grades_path --point_adjust=3
+# python return_grades.py --assignment=tutorial_01 --grades_path=grades.csv --point_adjust=3
 import requests
 import os
 import urllib.parse

@@ -11,7 +11,7 @@
 # point_adjust which is useful if you forget to assign points to a question.
 #
 # Example:
-# python return_grades.py --assignment=tutorial_01 --grades_path
+# python return_grades.py --assignment=tutorial_01 --grades_path=grades.csv
 #
 # This script can also adjust the grades in case a mistake was made assigning points. 
 # This can be done using the point_adjust optional argument:

@@ -29,7 +29,7 @@ class course():
                 "Accept": "application/json+canvas-string-ids"
               },
               json={
-                "enrollment_type": ["student"],
+                "type": ["StudentEnrollment"],
                 "per_page": "500"
               },
             )

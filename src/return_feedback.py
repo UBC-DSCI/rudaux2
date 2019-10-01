@@ -17,6 +17,31 @@ import requests
 import argparse
 import rudaux2
 import paramiko
+import time
+
+def put_dir(sftp, localdir, remotedir, uid, gid): 
+    for fn in os.listdir(localdir):
+        local_fn = os.path.join(localdir, fn)
+        remote_fn = os.path.join(remotedir, fn)
+        #if the file is a directory, create the dir and recurse
+        if os.path.isdir(local_fn):
+            print('creating folder from ' + str(local_fn) + ' to ' + str(remote_fn))
+            try:
+                pass
+                #sftp.mkdir(remote_fn)
+                #sftp.chown(remote_fn, uid, gid)
+            except:
+                pass
+            put_dir(sftp, local_fn, remote_fn, uid, gid)
+        #if the file is a file, write it
+        else:
+            print('putting file ' + str(local_fn) + ' to ' + str(remote_fn))
+            try:
+                pass
+                #sftp.put(localpath=local_fn, remotepath=remote_fn)
+                #sftp.chown(remote_fn, uid, gid)
+            except:
+                pass
 
 # read in command line arguments
 parser = argparse.ArgumentParser()
@@ -46,35 +71,31 @@ ssh = paramiko.SSHClient()
 ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ssh.connect("hub-prod-dsci.stat.ubc.ca", username="stty2u")
+
+
+#open sftp connection
 sftp = ssh.open_sftp()
 
 # looping over student id
 for student in students:
-    student_path_remote = os.path.join(course_storage_path, str(student))
-    assignment_folder_path_remote = os.path.join(student_path_remote, "feedback", assignment)
-    #assignment_path_remote = os.path.join(assignment_folder_path_remote, assignment, '.ipynb')
-    
-    assignment_folder_path_local = os.path.join(copy_from_path_prefix, str(student), assignment)
+    #student_path_remote = os.path.join(course_storage_path, str(student))
 
+    feedback_folder_remote = os.path.join(course_storage_path, str(student), "feedback")
+    
+    feedback_file_remote = os.path.join(course_storage_path, str(student), "feedback", assignment+'.html')
+
+    feedback_file_local = os.path.join(copy_from_path_prefix, str(student), assignment, assignment+'.html')
+
+    #create /tank/home/dsci100/#####/feedback
     try:
-        sftp.mkdir(os.path.join(student_path_remote, "feedback"))
-    except:
-        pass
+        sftp.mkdir(feedback_folder_remote)
+        print('created folder ' + feedback_folder_remote)
+    except IOError as e:
+        print(e)
+    #create /tank/home/dsci100/#####/feedback/assignment_folder
     try:
-        sftp.mkdir(assignment_folder_path_remote)
-    except:
-        pass
-    try: 
-        for root, dirs, files in os.walk(assignment_folder_path_local):
-            for dir in dirs:
-                try:
-                    sftp.mkdir(os.path.join(assignment_folder_path_local, dir))
-                except:
-                    pass
-            for file in files:
-                try:
-                    sftp.put(localpath=os.path.join(root, file), remotepath=os.path.join(assignment_folder_path_remote, file))
-                except:
-                    pass
-    except:
-        pass
+        sftp.put(localpath=feedback_file_local, remotepath=feedback_file_remote)
+        print('copied ' + feedback_file_local + ' to ' + feedback_file_remote)
+    except IOError as e:
+        print(e)
+

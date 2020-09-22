@@ -91,7 +91,7 @@ class course():
         assignment_id = self.get_assignment_id(assignment)
         url_mid_path = posixpath.join("api", "v1", "courses", self.courseID, "assignments", assignment_id, "submissions")
         for index, student in data.iterrows():
-            stu = str(int(student['student_id']))
+            stu = str(student['student_id'])
             url_post_path = posixpath.join(url_mid_path, stu)
             api_url = urllib.parse.urljoin(self.canvasHostName, url_post_path)
             resp = requests.put(
